@@ -36,10 +36,11 @@
         <mat-card-content>
           <mat-chip-list aria-label="Artist selection">
             <mat-chip
-              [routerLink]="['/artist']"
+            [routerLink]="['/artist']"
               *ngFor="let artist of item.artists; let i = index"
-              >{{ artist.name }}</mat-chip
             >
+              {{ artist.name }}
+            </mat-chip>
           </mat-chip-list>
         </mat-card-content>
       </mat-card>

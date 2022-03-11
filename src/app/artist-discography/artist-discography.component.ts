@@ -8,6 +8,8 @@ import artistData from '../data/SearchResultsArtist.json';
   styleUrls: ['./artist-discography.component.css'],
 })
 export class ArtistDiscographyComponent implements OnInit {
+  // NOTE: This is to filter out duplicate album names.
+  //albums = albumData.items;
   albums = albumData.items.filter(
     (curValue, index, self) =>
       self.findIndex(
