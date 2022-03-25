@@ -20,14 +20,12 @@ export class SearchResultComponent implements OnInit, OnDestroy {
       console.log('comp: ' + this.searchQuery);
     });
 
-    this.searchArtistsSub = this.data.searchArtists(this.searchQuery).subscribe(
-      (data) =>
-        (this.results = data.artists.items.filter(
-          (t) => t.images.length > 0
-          // (curValue, index, self) =>
-          //   self.findIndex((t) => t.images.length > 0) === index
-        ))
-    );
+    this.searchArtistsSub = this.data
+      .searchArtists(this.searchQuery)
+      .subscribe(
+        (data) =>
+          (this.results = data.artists.items.filter((t) => t.images.length > 0))
+      );
   }
 
   ngOnDestroy() {

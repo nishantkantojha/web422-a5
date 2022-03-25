@@ -13,7 +13,7 @@ export class MusicDataService {
     private http: HttpClient
   ) {}
 
-  favouritesList: Array<any> = [];
+  public favouritesList: Array<any> = [];
 
   getNewReleases(): Observable<SpotifyApi.ListOfNewReleasesResponse> {
     return this.spotifyToken.getBearerToken().pipe(

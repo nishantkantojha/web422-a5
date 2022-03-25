@@ -53,11 +53,11 @@
         <mat-card-content>
           {{ i + 1 }}: {{ item.name }} -
           {{ (item.duration_ms / 60000).toFixed(2) }}
+          <div *ngIf="item.preview_url">
+            <br /><audio controls [src]="item.preview_url"></audio>
+          </div>
         </mat-card-content>
       </mat-card>
-    </div>
-    <div *ngIf="item.preview_url">
-      <br /><audio controls [src]="item.preview_url"></audio>
     </div>
   </mat-list-item>
   <!-- -->

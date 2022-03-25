@@ -8,7 +8,6 @@ import { MusicDataService } from '../music-data.service';
 })
 export class NewReleasesComponent implements OnInit, OnDestroy {
   releases: SpotifyApi.ListOfNewReleasesResponse | any;
-  //releases: SpotifyApi.ListOfNewReleasesResponse | undefined;
 
   private newReleasesSub: any;
 

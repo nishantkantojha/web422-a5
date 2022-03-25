@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./album.component.css'],
 })
 export class AlbumComponent implements OnInit, OnDestroy {
-  //album = albumData;
   id: any;
   album: SpotifyApi.SingleAlbumResponse | any;
 

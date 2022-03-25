@@ -20,15 +20,14 @@
           <br /><br />
           Artist(s):
           <span *ngFor="let artist of item.artists; let j = index">
-            <!-- <a [routerLink]="['/artist', artist.id]">{{ artist.name }}</a> -->
-            <a href="/artist/{{ artist.id }}">{{ artist.name }} </a
+            <a [routerLink]="['/artist', artist.id]">{{ artist.name }}</a>
+            <!-- <a href="/artist/{{ artist.id }}">{{ artist.name }} </a -->
             >&nbsp;&nbsp;</span
           >
           <br />
           Album:
-          <!-- <a [routerLink]="['/album', item.album.id]"> {{ item.album.name }}</a> -->
-          <a href="/album/{{ item.album.id }}">{{ item.album.name }} </a>
-
+          <a [routerLink]="['/album', item.album.id]"> {{ item.album.name }}</a>
+          <!-- <a href="/album/{{ item.album.id }}">{{ item.album.name }} </a> -->
           <br />
           <div *ngIf="item.preview_url">
             <br /><audio controls [src]="item.preview_url"></audio>

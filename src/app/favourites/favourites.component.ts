@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MusicDataService } from '../music-data.service';
-//import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-favourites',
