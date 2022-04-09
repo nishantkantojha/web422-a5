@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MusicDataService } from '../music-data.service';
 
 @Component({
@@ -6,27 +6,38 @@ import { MusicDataService } from '../music-data.service';
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.css'],
 })
-export class FavouritesComponent implements OnInit {
+export class FavouritesComponent implements OnInit, OnDestroy {
   favourites: Array<any> = [];
   private getFavouritesSub: any;
   private removeFromFavouritesSub: any;
 
-  constructor(private data: MusicDataService) {}
+  constructor(private musicDataService: MusicDataService) {}
 
   ngOnInit() {
-    this.getFavouritesSub = this.data
+    this.getFavouritesSub = this.musicDataService
       .getFavourites()
-      .subscribe((data) => (this.favourites = data.tracks));
+      .subscribe((data) => {
+        console.log(data.tracks.length);
+        this.favourites = data.tracks;
+      });
   }
 
   removeFromFavourites(trackID: string) {
-    this.removeFromFavouritesSub = this.data
+    this.removeFromFavouritesSub = this.musicDataService
       .removeFromFavourites(trackID)
       .subscribe((data) => (this.favourites = data.tracks));
   }
 
+  removeAllTracksFromFavourites() {
+    this.favourites.forEach((f) => {
+      this.removeFromFavouritesSub = this.musicDataService
+        .removeFromFavourites(f.id)
+        .subscribe((data) => (this.favourites = data.tracks));
+    });
+  }
+
   ngOnDestroy() {
     this.getFavouritesSub.unsubscribe();
-    this.removeFromFavouritesSub.unsubscribe();
+    //this.removeFromFavouritesSub.unsubscribe();
   }
 }

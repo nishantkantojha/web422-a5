@@ -5,36 +5,48 @@
   <strong>remove</strong> a song from your list
 </p>
 
-<br />
+<div *ngIf="favourites">
+  <mat-chip-list
+    *ngIf="favourites.length > 0"
+    aria-label="removeAllTracksFromFavourites"
+  >
+    <mat-chip (click)="removeAllTracksFromFavourites()">
+      Remove All {{ favourites.length }} Track(s) From Favourites
+    </mat-chip>
+  </mat-chip-list>
+  <br />
 
-<mat-list>
-  <mat-list-item *ngFor="let item of favourites; let i = index">
-    <mat-icon mat-list-icon (click)="removeFromFavourites(item.id)"
-      >queue_music</mat-icon
-    >
-    <div mat-line>
-      <mat-card>
-        <mat-card-content
-          ><strong>{{ item.name }}</strong> -
-          {{ (item.duration_ms / 60000).toFixed(2) }}
-          <br /><br />
-          Artist(s):
-          <span *ngFor="let artist of item.artists; let j = index">
-            <a [routerLink]="['/artist', artist.id]">{{ artist.name }}</a>
-            <!-- <a href="/artist/{{ artist.id }}">{{ artist.name }} </a -->
-            >&nbsp;&nbsp;</span
-          >
-          <br />
-          Album:
-          <a [routerLink]="['/album', item.album.id]"> {{ item.album.name }}</a>
-          <!-- <a href="/album/{{ item.album.id }}">{{ item.album.name }} </a> -->
-          <br />
-          <div *ngIf="item.preview_url">
-            <br /><audio controls [src]="item.preview_url"></audio>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </mat-list-item>
-  <!-- -->
-</mat-list>
+  <mat-list>
+    <mat-list-item *ngFor="let item of favourites; let i = index">
+      <mat-icon mat-list-icon (click)="removeFromFavourites(item.id)"
+        >queue_music</mat-icon
+      >
+      <div mat-line>
+        <mat-card>
+          <mat-card-content
+            ><strong>{{ item.name }}</strong> -
+            {{ (item.duration_ms / 60000).toFixed(2) }}
+            <br /><br />
+            Artist(s):
+            <span *ngFor="let artist of item.artists; let j = index">
+              <a [routerLink]="['/artist', artist.id]">{{ artist.name }}</a>
+              <!-- <a href="/artist/{{ artist.id }}">{{ artist.name }} </a -->
+              >&nbsp;&nbsp;</span
+            >
+            <br />
+            Album:
+            <a [routerLink]="['/album', item.album.id]">
+              {{ item.album.name }}</a
+            >
+            <!-- <a href="/album/{{ item.album.id }}">{{ item.album.name }} </a> -->
+            <br />
+            <div *ngIf="item.preview_url">
+              <br /><audio controls [src]="item.preview_url"></audio>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-list-item>
+    <!-- -->
+  </mat-list>
+</div>

@@ -6,7 +6,7 @@
 
 <br />
 
-<div class="content">
+<div class="content" *ngIf="results">
   <div fxLayout="row wrap" fxLayout.xs="column">
     <div
       *ngFor="let item of results; let i = index"

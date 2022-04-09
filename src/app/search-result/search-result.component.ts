@@ -17,7 +17,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.queryParams.subscribe((p) => {
       this.searchQuery = p['q'];
-      console.log('comp: ' + this.searchQuery);
+      // console.log('comp: ' + this.searchQuery);
     });
 
     this.searchArtistsSub = this.data
