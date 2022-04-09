@@ -6,7 +6,7 @@
  *
  *  Name: Florence Soliva Student ID: 061852091 Date: 2022-04-10
  *
- *  Online URL:
+ *  Online URL: https://marvelous-kleicha-a4ac26.netlify.app
  *
  ********************************************************************************/
 import { Component, OnInit, OnDestroy } from '@angular/core';
