@@ -59,9 +59,15 @@
       </button>
     </form>
   </mat-card-content>
+  <mat-progress-bar
+    *ngIf="loading"
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+
   <div *ngIf="success == true" class="success">
     Registration Successful. Proceed to<br /><br />
-    <a mat-raised-button color="accent">
+    <a mat-raised-button color="accent" routerLink="/login">
       <mat-icon>login</mat-icon>&nbsp;&nbsp;&nbsp;Login
     </a>
   </div>

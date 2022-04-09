@@ -6,7 +6,7 @@
 </div>
 <br />
 
-<div class="content">
+<div class="content" *ngIf="releases">
   <div fxLayout="row wrap" fxLayout.xs="column">
     <div class="content">
       <div fxLayout="row wrap" fxLayout.xs="column"></div>
@@ -14,7 +14,7 @@
 
     <div
       fxFlex
-      *ngFor="let item of releases?.albums.items; let i = index"
+      *ngFor="let item of releases.albums.items; let i = index"
       [style.margin]="'20px'"
     >
       <mat-card [style.min-width]="'200px'">

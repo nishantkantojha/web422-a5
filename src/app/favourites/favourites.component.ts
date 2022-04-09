@@ -9,7 +9,7 @@ import { MusicDataService } from '../music-data.service';
 export class FavouritesComponent implements OnInit, OnDestroy {
   favourites: Array<any> = [];
   private getFavouritesSub: any;
-  private removeFromFavouritesSub: any;
+  //private removeFromFavouritesSub: any;
 
   constructor(private musicDataService: MusicDataService) {}
 
@@ -17,20 +17,22 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     this.getFavouritesSub = this.musicDataService
       .getFavourites()
       .subscribe((data) => {
-        console.log(data.tracks.length);
+        //console.log(data.tracks.length);
         this.favourites = data.tracks;
       });
   }
 
   removeFromFavourites(trackID: string) {
-    this.removeFromFavouritesSub = this.musicDataService
+    //this.removeFromFavouritesSub =
+    this.musicDataService
       .removeFromFavourites(trackID)
       .subscribe((data) => (this.favourites = data.tracks));
   }
 
   removeAllTracksFromFavourites() {
     this.favourites.forEach((f) => {
-      this.removeFromFavouritesSub = this.musicDataService
+      //this.removeFromFavouritesSub =
+      this.musicDataService
         .removeFromFavourites(f.id)
         .subscribe((data) => (this.favourites = data.tracks));
     });
