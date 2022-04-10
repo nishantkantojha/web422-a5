@@ -12,22 +12,9 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { GuardAuthService } from './guard-auth.service';
 
 const routes: Routes = [
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'about', component: AboutComponent },
   {
     path: 'newReleases',
     component: NewReleasesComponent,
-    canActivate: [GuardAuthService],
-  },
-  {
-    path: 'artist/:id',
-    component: ArtistDiscographyComponent,
-    canActivate: [GuardAuthService],
-  },
-  {
-    path: 'album/:id',
-    component: AlbumComponent,
     canActivate: [GuardAuthService],
   },
   {
@@ -40,6 +27,19 @@ const routes: Routes = [
     component: FavouritesComponent,
     canActivate: [GuardAuthService],
   },
+  {
+    path: 'artist/:id',
+    component: ArtistDiscographyComponent,
+    canActivate: [GuardAuthService],
+  },
+  {
+    path: 'album/:id',
+    component: AlbumComponent,
+    canActivate: [GuardAuthService],
+  },
+  { path: 'about', component: AboutComponent, canActivate: [GuardAuthService] },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'newReleases', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
