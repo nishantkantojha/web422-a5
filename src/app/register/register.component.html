@@ -12,7 +12,7 @@
           name="username"
           required
           autofocus
-          [(ngModel)]="user.userName"
+          [(ngModel)]="regUser.userName"
           #name="ngModel"
         />
         <mat-error
@@ -28,7 +28,7 @@
           placeholder="Password"
           name="password"
           required
-          [(ngModel)]="user.password"
+          [(ngModel)]="regUser.password"
           #password="ngModel"
         />
         <mat-error
@@ -44,7 +44,7 @@
           placeholder="Password"
           name="password2"
           required
-          [(ngModel)]="user.password2"
+          [(ngModel)]="regUser.password2"
           #password2="ngModel"
         />
         <mat-error
@@ -68,7 +68,14 @@
   <div *ngIf="success == true" class="success">
     Registration Successful. Proceed to<br /><br />
     <a mat-raised-button color="accent" routerLink="/login">
-      <mat-icon>login</mat-icon>&nbsp;&nbsp;&nbsp;Login
+      <mat-icon>login</mat-icon>&nbsp;&nbsp;&nbsp;Login (redirect)
+    </a>
+
+    <br />
+    <br />
+    <a mat-raised-button color="accent" (click)="autoLogin()">
+      <mat-icon>login</mat-icon>&nbsp;&nbsp;&nbsp;Automatically Login Just
+      Registered User
     </a>
   </div>
 </mat-card>

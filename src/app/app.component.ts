@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    console.log('a');
     this.authService.logout();
     this.token = null;
     this.router.navigate(['/login']);
