@@ -12,7 +12,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { MusicDataService } from './music-data.service';
 import User from './User';
 
 @Component({
@@ -36,7 +35,9 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
+    console.log('a');
+    this.authService.logout();
+    this.token = null;
     this.router.navigate(['/login']);
   }
 
