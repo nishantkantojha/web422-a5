@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  clientID: '96018ccd8a25479c8576e1b4fbe1d880',
-  clientSecret: '83839f3354ea4566a9b434349eef8021',
-  userAPIBase: 'https://stormy-bayou-67983.herokuapp.com/api/user',
+  clientID:"2d236bb64e634b249ac222ed1447a12b",
+  clientSecret:"81b49f7248924550a692fdde63ae197d",
+  userAPIBase: "https://nishant-web422.herokuapp.com/"
 };

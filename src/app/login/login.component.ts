@@ -1,41 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import User  from '../User';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import User from '../User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  public user: User = { userName: '', password: '', _id: '' };
-  warning: string = '';
-  loading: boolean = false;
+export class LoginComponent implements OnInit {
 
-  //private registerSub: any;
+  user: User = {userName: "", password: "", _id:""};
+  warning: String="";
+  loading: Boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
-  onSubmit(f: NgForm): void {
-    //console.log(this.user);
-
-    if (this.user.userName != '' && this.user.password != '') {
-      this.loading = true;
-      //this.registerSub = 
-      this.authService.login(this.user).subscribe(
-        (success) => {
-          // console.log(success);
-          this.loading = false;
-          this.authService.setToken(success.token);
-          this.router.navigate(['/newReleases']);
-        },
-        (err) => {
-          this.warning = err.error.message;
-          this.loading = false;
-        }
-      );
-    }
+  ngOnInit(): void {
   }
+
+  onSubmit(): void {
+    if (this.user.userName == "") {
+      this.loading = false;
+      this.warning = "User Name must not be empty";
+    } else if (this.user.password == "") {
+      this.loading = false;
+      this.warning = "Password must not be empty";
+    } else {
+      this.loading = true;
+      this.auth.login(this.user).subscribe({
+        next: (success)=>{
+          this.loading=false;
+          localStorage.setItem('access_token', `${success.token}`);
+          this.router.navigate(['/newReleases']);
+        }})
+    };
+  };
 }

@@ -1,43 +1,37 @@
 /*********************************************************************************
- *  WEB422 – Assignment 6
- *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.
- *  No part of this assignment has been copied manually or electronically from any other source
- *  (including web sites) or distributed to other students.
+ *  WEB422 – Assignment 06
+ *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part of this
+ *  assignment has been copied manually or electronically from any other source (including web sites) or
+ *  distributed to other students.
  *
- *  Name: Florence Soliva Student ID: 061852091 Date: 2022-04-10
+ *  Name: Nishant Kant Ojha Student ID: 142488204 Date: 04/11/2022
  *
- *  Online URL: https://marvelous-kleicha-a4ac26.netlify.app
+ *  Angular App (Deployed) Link: _____________________________________________________
+ *
+ *  User API (Heroku) Link: https://nishant-web422.herokuapp.com/
  *
  ********************************************************************************/
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import User from './User';
 
+import { Component, OnInit } from '@angular/core';
+import { Router, Event, NavigationStart } from '@angular/router';
+import { AuthService } from './auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  token: User | null = null; // { _id: '', userName: '', password: '' };
-  title = 'web422-a6';
+  title = 'web422-a4';
   searchString: string = '';
-
+  public token: any;
   constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit() {
-    this.router.events.subscribe((e) => {
-      if (e instanceof NavigationStart) {
+  ngOnInit(): void {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
         this.token = this.authService.readToken();
       }
     });
-  }
-
-  logout() {
-    this.authService.logout();
-    this.token = null;
-    this.router.navigate(['/login']);
   }
 
   handleSearch() {
@@ -45,5 +39,10 @@ export class AppComponent implements OnInit {
       queryParams: { q: this.searchString },
     });
     this.searchString = '';
+  }
+
+  public logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

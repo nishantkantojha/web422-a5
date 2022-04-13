@@ -1,25 +1,29 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MusicDataService } from '../music-data.service';
 
 @Component({
   selector: 'app-new-releases',
   templateUrl: './new-releases.component.html',
-  styleUrls: ['./new-releases.component.css'],
+  styleUrls: ['./new-releases.component.css']
 })
+
 export class NewReleasesComponent implements OnInit, OnDestroy {
-  releases: SpotifyApi.ListOfNewReleasesResponse | any;
+  private subscribe: Subscription | undefined;
 
-  private newReleasesSub: any;
+  releases:any;
 
-  constructor(private data: MusicDataService) {}
 
-  ngOnInit() {
-    this.newReleasesSub = this.data
-      .getNewReleases()
-      .subscribe((data) => (this.releases = data));
+  constructor(private releaseData : MusicDataService) {
   }
 
-  ngOnDestroy() {
-    this.newReleasesSub.unsubscribe();
+  ngOnInit(): void {
+    this.subscribe = this.releaseData.getNewReleases().subscribe(data=>{
+      this.releases = data.albums.items;
+    });
+  }
+
+  ngOnDestroy(): void{
+    this.subscribe?.unsubscribe();
   }
 }

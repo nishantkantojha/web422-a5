@@ -1,45 +1,40 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MusicDataService } from '../music-data.service';
 
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
-  styleUrls: ['./favourites.component.css'],
+  styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent implements OnInit, OnDestroy {
+
+  private favouriteSubscription: Subscription | undefined;
+  private removeSubscription: Subscription | undefined;
+
   favourites: Array<any> = [];
-  private getFavouritesSub: any;
-  //private removeFromFavouritesSub: any;
 
-  constructor(private musicDataService: MusicDataService) {}
 
-  ngOnInit() {
-    this.getFavouritesSub = this.musicDataService
-      .getFavourites()
-      .subscribe((data) => {
-        //console.log(data.tracks.length);
-        this.favourites = data.tracks;
-      });
+
+  constructor(private musicData: MusicDataService) {
   }
 
-  removeFromFavourites(trackID: string) {
-    //this.removeFromFavouritesSub =
-    this.musicDataService
-      .removeFromFavourites(trackID)
-      .subscribe((data) => (this.favourites = data.tracks));
-  }
-
-  removeAllTracksFromFavourites() {
-    this.favourites.forEach((f) => {
-      //this.removeFromFavouritesSub =
-      this.musicDataService
-        .removeFromFavourites(f.id)
-        .subscribe((data) => (this.favourites = data.tracks));
+  ngOnInit(): void {
+    this.favouriteSubscription = this.musicData.getFavourites().subscribe(data=>{
+      this.favourites = data.tracks;
     });
   }
 
-  ngOnDestroy() {
-    this.getFavouritesSub.unsubscribe();
-    //this.removeFromFavouritesSub.unsubscribe();
+  removeFromFavourites(id: string){
+    this.removeSubscription = this.musicData.removeFromFavourites(id).subscribe(data=>{
+      this.favourites = data.tracks;
+    });
+
   }
+
+  ngOnDestroy(): void{
+    this.favouriteSubscription?.unsubscribe();
+    this.removeSubscription?.unsubscribe();
+  }
+
 }

@@ -13,7 +13,7 @@ import { Injectable } from '@angular/core';
 })
 export class InterceptTokenService implements HttpInterceptor {
   // Initialization
-  constructor(private a: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   // Methods
   intercept(
@@ -24,7 +24,7 @@ export class InterceptTokenService implements HttpInterceptor {
     if (!request.url.includes('spotify.com')) {
       request = request.clone({
         setHeaders: {
-          Authorization: `JWT ${this.a.getToken()}`,
+          Authorization: `JWT ${this.authService.getToken()}`,
         },
       });
     }

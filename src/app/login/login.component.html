@@ -1,55 +1,23 @@
-<mat-progress-bar
-  *ngIf="loading"
-  color="primary"
-  mode="indeterminate"
-></mat-progress-bar>
-
 <mat-card>
   <mat-card-content>
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <form (ngSubmit)='onSubmit()'>
       <h2>Log In</h2>
-      <mat-error class="alert alert-danger" *ngIf="warning">
-        {{ warning }}</mat-error
-      ><br />
+      <mat-error *ngIf="warning">{{warning}}</mat-error><br />
       <mat-form-field class="full-width-input">
-        <input
-          matInput
-          placeholder="User Name"
-          name="username"
-          required
-          autofocus
-          [(ngModel)]="user.userName"
-          #name="ngModel"
-        />
-        <mat-error
-          *ngIf="name.invalid && (name.dirty || name.touched)"
-          class="alert alert-danger"
-          >Please provide a valid user name</mat-error
-        > </mat-form-field
-      ><br />
+        <input matInput placeholder="User Name" name="username" [(ngModel)]="user.userName" required autofocus>
+        <mat-error>Please provide a valid user name</mat-error>
+      </mat-form-field><br />
       <mat-form-field class="full-width-input">
-        <input
-          matInput
-          type="password"
-          placeholder="Password"
-          name="password"
-          password="password"
-          required
-          [(ngModel)]="user.password"
-          #password="ngModel"
-        />
-        <mat-error
-          *ngIf="password.invalid && (password.dirty || password.touched)"
-          class="alert alert-danger"
-          >Please provide a valid password</mat-error
-        > </mat-form-field
-      ><br />
-      <button mat-raised-button color="accent" type="submit">
+        <input matInput type="password" placeholder="Password" name="password" password="password" [(ngModel)]="user.password" required>
+        <mat-error>Please provide a valid password</mat-error>
+      </mat-form-field><br />
+      <button mat-raised-button color="accent" type="submit" [disabled]="loading">
         <mat-icon>login</mat-icon>
-        <span>&nbsp;&nbsp;&nbsp;Login</span>
+        <span *ngIf="!loading">&nbsp;&nbsp;&nbsp;Login</span>
+        <span *ngIf="loading">&nbsp;&nbsp;&nbsp;Processing</span>
       </button>
       &nbsp;&nbsp;
-      <button mat-raised-button color="primary" routerLink="/register">
+      <button mat-raised-button color="primary" routerLink="../register">
         <mat-icon>account_box</mat-icon>
         <span>&nbsp;&nbsp;&nbsp;Register</span>
       </button>

@@ -1,47 +1,44 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MusicDataService } from '../music-data.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MusicDataService } from '../music-data.service';
+
 
 @Component({
   selector: 'app-artist-discography',
   templateUrl: './artist-discography.component.html',
-  styleUrls: ['./artist-discography.component.css'],
+  styleUrls: ['./artist-discography.component.css']
 })
 export class ArtistDiscographyComponent implements OnInit, OnDestroy {
-  id: any;
-  artist: SpotifyApi.SingleArtistResponse | any;
-  albums: SpotifyApi.ArtistsAlbumsResponse | any;
 
-  private artistByIdSub: any;
-  private albumsByArtistId: any;
+  private paramSubscription: Subscription | undefined;
+  private artistIdSubscription:  Subscription | undefined;
+  private albumArtistSubscription:  Subscription | undefined;
 
-  constructor(private route: ActivatedRoute, private data: MusicDataService) {}
+  artist:any;
+  albums:any;
 
-  ngOnInit() {
-    // this.id = this.route.snapshot.params['id'];
-    // console.log(this.id);
-    this.route.paramMap.subscribe((p) => {
-      this.id = p.get('id');
-    });
 
-    this.artistByIdSub = this.data
-      .getArtistById(this.id)
-      .subscribe((data) => (this.artist = data));
 
-    this.albumsByArtistId = this.data.getAlbumsByArtistId(this.id).subscribe(
-      (data) =>
-        // filter out duplicate album names
-        (this.albums = data.items.filter(
-          (curValue, index, self) =>
-            self.findIndex(
-              (t) => t.name.toUpperCase() === curValue.name.toUpperCase()
-            ) === index
-        ))
-    );
+  constructor(private musicData: MusicDataService, private activatedRoute: ActivatedRoute) {
   }
 
-  ngOnDestroy() {
-    this.artistByIdSub.unsubscribe();
-    this.albumsByArtistId.unsubscribe();
+  ngOnInit(): void {
+    this.paramSubscription = this.activatedRoute.params.subscribe(id=>{
+
+      this.artistIdSubscription = this.musicData.getArtistById(id['id']).subscribe(artist=>{
+        this.artist = artist
+      });
+
+      this.albumArtistSubscription = this.musicData.getAlbumsByArtistId(id['id']).subscribe(data => {
+        this.albums = data.items.filter((curValue, index, self) => self.findIndex(t => t.name.toUpperCase() === curValue.name.toUpperCase()) === index)
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.paramSubscription?.unsubscribe();
+    this.artistIdSubscription?.unsubscribe();
+    this.albumArtistSubscription?.unsubscribe();
   }
 }

@@ -1,34 +1,36 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MusicDataService } from '../music-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MusicDataService } from '../music-data.service';
 
 @Component({
   selector: 'app-search-result',
   templateUrl: './search-result.component.html',
-  styleUrls: ['./search-result.component.css'],
+  styleUrls: ['./search-result.component.css']
 })
-export class SearchResultComponent implements OnInit, OnDestroy {
+export class SearchResultComponent implements OnInit {
+
+  private querySubscription: Subscription | undefined;
+  private artistsSubscription: Subscription | undefined;
+
   results: any;
-  searchQuery: string = '';
-  private searchArtistsSub: any;
+  searchQuery: string= "";
 
-  constructor(private route: ActivatedRoute, private data: MusicDataService) {}
+  constructor(private musicData: MusicDataService, private activatedRoute: ActivatedRoute) { }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe((p) => {
-      this.searchQuery = p['q'];
-      // console.log('comp: ' + this.searchQuery);
+  ngOnInit(): void {
+    this.querySubscription = this.activatedRoute.queryParams.subscribe(parameter => {
+      this.searchQuery = parameter['q'];
+
+      this.artistsSubscription = this.musicData.searchArtists(this.searchQuery).subscribe(data=>{
+        this.results = data.artists.items.filter(img=>img.images.length > 0);
+      });
     });
-
-    this.searchArtistsSub = this.data
-      .searchArtists(this.searchQuery)
-      .subscribe(
-        (data) =>
-          (this.results = data.artists.items.filter((t) => t.images.length > 0))
-      );
   }
 
-  ngOnDestroy() {
-    this.searchArtistsSub.unsubscribe();
+  ngOnDestroy(): void {
+    this.querySubscription?.unsubscribe();
+    this.artistsSubscription?.unsubscribe();
   }
+
 }

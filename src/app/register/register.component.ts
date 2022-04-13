@@ -1,65 +1,51 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import  RegisterUser  from '../RegisterUser';
 import { AuthService } from '../auth.service';
-import RegisterUser from '../RegisterUser';
-import User from '../User';
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
-  public regUser: RegisterUser = { userName: '', password: '', password2: '' };
-  warning: string = '';
-  success: boolean = false;
-  loading: boolean = false;
-  public user: User = { userName: '', password: '', _id: '' };
+export class RegisterComponent implements OnInit {
 
-  private registerSub: any;
+  registerUser: RegisterUser = {userName: "", password: "", password2: ""};
+  warning: String="";
+  success: Boolean = false;
+  loading: Boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private auth: AuthService) { } //, private router: Router
 
-  onSubmit(f: NgForm): void {
-    //console.log(this.user);
-
-    if (
-      this.regUser.userName != '' &&
-      this.regUser.password != '' &&
-      this.regUser.password2 != ''
-    ) {
-      this.registerSub = this.authService.register(this.regUser).subscribe(
-        (success) => {
-          this.user.userName = this.regUser.userName;
-          this.user.password = this.regUser.password;
-
-          //console.log(success);
-          this.warning = '';
-          this.success = true;
-          this.loading = false;
-        },
-        (err) => {
-          this.warning = err.error.message;
-          this.success = false;
-          this.loading = false;
-        }
-      );
-    }
+  ngOnInit(): void {
   }
 
-  autoLogin() {
-    this.authService.login(this.user).subscribe(
-      (success) => {
-        // console.log(success);
+  onSubmit(): void {
+    if (this.registerUser.userName == "") {
+      this.success = false;
+      this.loading = false;
+      this.warning = "User Name must not be empty";
+    } else if (this.registerUser.password == "" || this.registerUser.password2 == "") {
+      this.success = false;
+      this.loading = false;
+      this.warning = "Passwords must not be empty";
+    } else if (this.registerUser.password != this.registerUser.password2) {
+      this.success = false;
+      this.loading = false;
+      this.warning = "Passwords must match";
+    } else {
+      this.loading = true;
+      this.auth.register(this.registerUser).subscribe((msg) => {
+        console.log(msg);
+        this.success = true;
         this.loading = false;
-        this.authService.setToken(success.token);
-        this.router.navigate(['/newReleases']);
-      },
-      (err) => {
+        this.warning = '';
+      }, (err) => {
+        console.log(err);
+        this.success = false;
+        this.loading = false;
         this.warning = err.error.message;
-        this.loading = false;
-      }
-    );
-  }
+      });
+    };
+  };
 }
